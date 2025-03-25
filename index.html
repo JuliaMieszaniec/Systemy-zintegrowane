@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>GHP & MRP</title>
     <style>
         table { border-collapse: collapse; width: 100%; }
@@ -64,6 +65,11 @@
             <td>Planowane zamówienia</td>
             <script>for(let i = 1; i <= 10; i++) document.write('<td class="planowane_zam">0</td>');</script>
         </tr>
+        <tr>
+            <td>Planowane przyjęcie zamówień</td>
+            <script>for(let i = 1; i <= 10; i++) document.write('<td class="planowane_przyjecie_zam">0</td>');</script>
+        </tr>
+        
         
     </table>
     <button onclick="obliczMRP()">Przelicz MRP</button>
@@ -84,35 +90,46 @@
         }
         
         function obliczMRP() {
-            let czas_realizacji = parseInt(document.getElementById("mrp_czas").value);
-            let wielkosc_partii = parseInt(document.getElementById("mrp_partia").value);
-            let stan = parseInt(document.getElementById("mrp_stan").value);
-            let zapotrzebowanie = document.querySelectorAll(".cal_zapotrzebowanie");
-            let przewidywane_stan = document.querySelectorAll(".przewidywane_stan");
-            let zap_netto = document.querySelectorAll(".zap_netto");
-            let planowane_przyjecia = document.querySelectorAll(".planowane_przyjecia");
-            let planowane_zam = document.querySelectorAll(".planowane_zam");
-            
-            let ghp_produkcja = document.querySelectorAll(".produkcja");
-            for (let i = 1; i < 10; i++) {
-                zapotrzebowanie[i].innerText = ghp_produkcja[i - 1].value || 0;
-            }
-            
-            for (let i = 0; i < 10; i++) {
-                let zap = parseInt(zapotrzebowanie[i].innerText) || 0;
-                stan -= zap;
-                if (stan < 0) {
-                    let brakuje = Math.abs(stan);
-                    let partia = Math.ceil(brakuje / wielkosc_partii) * wielkosc_partii;
-                    zap_netto[i].innerText = brakuje;
-                    planowane_przyjecia[i].innerText = partia;
-                    let zamowienie_index = Math.max(0, i - czas_realizacji);
-                    planowane_zam[zamowienie_index].innerText = partia;
-                    stan = partia - brakuje;
-                }
-                przewidywane_stan[i].innerText = stan;
-            }
+        let czas_realizacji = parseInt(document.getElementById("mrp_czas").value);
+        let wielkosc_partii = parseInt(document.getElementById("mrp_partia").value);
+        let stan = parseInt(document.getElementById("mrp_stan").value);
+
+        let zapotrzebowanie = document.querySelectorAll(".cal_zapotrzebowanie");
+        let przewidywane_stan = document.querySelectorAll(".przewidywane_stan");
+        let zap_netto = document.querySelectorAll(".zap_netto");
+        let planowane_przyjecia = document.querySelectorAll(".planowane_przyjecia");
+        let planowane_zam = document.querySelectorAll(".planowane_zam");
+        let planowane_przyjecie_zam = document.querySelectorAll(".planowane_przyjecie_zam");
+
+        let ghp_produkcja = document.querySelectorAll(".produkcja");
+
+        for (let i = 0; i < 9; i++) {
+            zapotrzebowanie[i].innerText = ghp_produkcja[i + 1].value || 0;
         }
+
+        for (let i = 0; i < 10; i++) {
+            planowane_przyjecia[i].innerText = 0;
+        }
+
+        for (let i = 0; i < 10; i++) {
+            let zap = parseInt(zapotrzebowanie[i].innerText) || 0;
+            stan -= zap;
+
+            if (stan < 0) {
+                let brakuje = Math.abs(stan);
+                let partia = Math.ceil(brakuje / wielkosc_partii) * wielkosc_partii;
+                zap_netto[i].innerText = brakuje;
+                planowane_przyjecie_zam[i].innerText = partia;
+
+                let zamowienie_index = Math.max(0, i - czas_realizacji);
+                planowane_zam[zamowienie_index].innerText = partia;
+
+                stan = partia - brakuje;
+            }
+            przewidywane_stan[i].innerText = stan;
+        }
+    }
+
     </script>
 </body>
 </html>
