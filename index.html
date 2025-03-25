@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GHP & MRP</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid black; padding: 5px; text-align: center; }
+        input { width: 50px; }
+    </style>
+</head>
+<body>
+    <h2>GHP (Stół)</h2>
+    <label>Czas realizacji: <input type="number" id="ghp_czas" value="1"></label>
+    <label>Na stanie: <input type="number" id="ghp_stan" value="2"></label>
+    <table id="ghp_table">
+        <tr>
+            <th>Tydzień</th>
+            <script>for(let i = 1; i <= 10; i++) document.write(`<th>${i}</th>`);</script>
+        </tr>
+        <tr>
+            <td>Przewidywany popyt</td>
+            <script>for(let i = 1; i <= 10; i++) document.write('<td><input type="number" class="popyt"></td>');</script>
+        </tr>
+        <tr>
+            <td>Produkcja</td>
+            <script>for(let i = 1; i <= 10; i++) document.write('<td><input type="number" class="produkcja"></td>');</script>
+        </tr>
+        <tr>
+            <td>Dostępne</td>
+            <script>for(let i = 1; i <= 10; i++) document.write('<td class="dostepne">0</td>');</script>
+        </tr>
+    </table>
+    <button onclick="obliczGHP()">Przelicz GHP</button>
+    
+    <h2>MRP (Blaty)</h2>
+    <label>Czas realizacji: <input type="number" id="mrp_czas" value="3"></label>
+    <label>Wielkość partii: <input type="number" id="mrp_partia" value="40"></label>
+    <label>Poziom BOM: <input type="number" id="mrp_bom" value="1"></label>
+    <label>Na stanie: <input type="number" id="mrp_stan" value="22"></label>
+    <table id="mrp_table">
+        <tr>
+            <th>Okres</th>
+            <script>for(let i = 1; i <= 10; i++) document.write(`<th>${i}</th>`);</script>
+        </tr>
+        <tr>
+            <td>Całkowite zapotrzebowanie</td>
+            <script>for(let i = 1; i <= 10; i++) document.write('<td class="cal_zapotrzebowanie">0</td>');</script>
+        </tr>
+        <tr>
+            <td>Planowane przyjęcia</td>
+            <script>for(let i = 1; i <= 10; i++) document.write('<td class="planowane_przyjecia">0</td>');</script>
+        </tr>
+        <tr>
+            <td>Przewidywane na stanie</td>
+            <script>for(let i = 1; i <= 10; i++) document.write('<td class="przewidywane_stan">0</td>');</script>
+        </tr>
+        <tr>
+            <td>Zapotrzebowanie netto</td>
+            <script>for(let i = 1; i <= 10; i++) document.write('<td class="zap_netto">0</td>');</script>
+        </tr>
+        <tr>
+            <td>Planowane zamówienia</td>
+            <script>for(let i = 1; i <= 10; i++) document.write('<td class="planowane_zam">0</td>');</script>
+        </tr>
+        
+    </table>
+    <button onclick="obliczMRP()">Przelicz MRP</button>
+    
+    <script>
+        function obliczGHP() {
+            let stan = parseInt(document.getElementById("ghp_stan").value);
+            let popyt = document.querySelectorAll(".popyt");
+            let produkcja = document.querySelectorAll(".produkcja");
+            let dostepne = document.querySelectorAll(".dostepne");
+            
+            for (let i = 0; i < 10; i++) {
+                let prod = parseInt(produkcja[i].value) || 0;
+                let zap = parseInt(popyt[i].value) || 0;
+                stan += prod - zap;
+                dostepne[i].innerText = stan;
+            }
+        }
+        
+        function obliczMRP() {
+            let czas_realizacji = parseInt(document.getElementById("mrp_czas").value);
+            let wielkosc_partii = parseInt(document.getElementById("mrp_partia").value);
+            let stan = parseInt(document.getElementById("mrp_stan").value);
+            let zapotrzebowanie = document.querySelectorAll(".cal_zapotrzebowanie");
+            let przewidywane_stan = document.querySelectorAll(".przewidywane_stan");
+            let zap_netto = document.querySelectorAll(".zap_netto");
+            let planowane_przyjecia = document.querySelectorAll(".planowane_przyjecia");
+            let planowane_zam = document.querySelectorAll(".planowane_zam");
+            
+            let ghp_produkcja = document.querySelectorAll(".produkcja");
+            for (let i = 1; i < 10; i++) {
+                zapotrzebowanie[i].innerText = ghp_produkcja[i - 1].value || 0;
+            }
+            
+            for (let i = 0; i < 10; i++) {
+                let zap = parseInt(zapotrzebowanie[i].innerText) || 0;
+                stan -= zap;
+                if (stan < 0) {
+                    let brakuje = Math.abs(stan);
+                    let partia = Math.ceil(brakuje / wielkosc_partii) * wielkosc_partii;
+                    zap_netto[i].innerText = brakuje;
+                    planowane_przyjecia[i].innerText = partia;
+                    let zamowienie_index = Math.max(0, i - czas_realizacji);
+                    planowane_zam[zamowienie_index].innerText = partia;
+                    stan = partia - brakuje;
+                }
+                przewidywane_stan[i].innerText = stan;
+            }
+        }
+    </script>
+</body>
+</html>
