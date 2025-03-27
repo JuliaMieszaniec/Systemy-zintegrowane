@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
     <title>GHP & MRP</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
         th, td { border: 1px solid black; padding: 5px; text-align: center; }
@@ -17,25 +17,13 @@
     <label>Czas realizacji: <input type="number" id="ghp_czas" value="1"></label>
     <label>Na stanie: <input type="number" id="ghp_stan" value="2"></label>
     <table id="ghp_table">
-        <tr>
-            <th>Tydzień</th>
-            <script>for(let i = 1; i <= 10; i++) document.write(`<th>${i}</th>`);</script>
-        </tr>
-        <tr>
-            <td>Przewidywany popyt</td>
-            <script>for(let i = 1; i <= 10; i++) document.write('<td><input type="number" class="popyt"></td>');</script>
-        </tr>
-        <tr>
-            <td>Produkcja</td>
-            <script>for(let i = 1; i <= 10; i++) document.write('<td><input type="number" class="produkcja"></td>');</script>
-        </tr>
-        <tr>
-            <td>Dostępne</td>
-            <script>for(let i = 1; i <= 10; i++) document.write('<td class="dostepne">0</td>');</script>
-        </tr>
+        <tr><th>Tydzień</th><script>for(let i=1;i<=10;i++)document.write(`<th>${i}</th>`);</script></tr>
+        <tr><td>Przewidywany popyt</td><script>for(let i=1;i<=10;i++)document.write('<td><input type="number" class="popyt"></td>');</script></tr>
+        <tr><td>Produkcja</td><script>for(let i=1;i<=10;i++)document.write('<td><input type="number" class="produkcja"></td>');</script></tr>
+        <tr><td>Dostępne</td><script>for(let i=1;i<=10;i++)document.write('<td class="dostepne">0</td>');</script></tr>
     </table>
     <button onclick="obliczGHP()">Przelicz GHP</button>
-    
+
     <div class="mrp-section">
         <h2>MRP (Wosk)</h2>
         <label>Czas realizacji: <input type="number" id="mrp_wosk_czas" value="3"></label>
@@ -43,34 +31,13 @@
         <label>Poziom BOM: <input type="number" id="mrp_wosk_bom" value="1"></label>
         <label>Na stanie: <input type="number" id="mrp_wosk_stan" value="22"></label>
         <table id="mrp_wosk_table">
-            <tr>
-                <th>Okres</th>
-                <script>for(let i = 1; i <= 10; i++) document.write(`<th>${i}</th>`);</script>
-            </tr>
-            <tr>
-                <td>Całkowite zapotrzebowanie</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="cal_zapotrzebowanie">0</td>');</script>
-            </tr>
-            <tr>
-                <td>Planowane przyjęcia</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="planowane_przyjecia">0</td>');</script>
-            </tr>
-            <tr>
-                <td>Przewidywane na stanie</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="przewidywane_stan">0</td>');</script>
-            </tr>
-            <tr>
-                <td>Zapotrzebowanie netto</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="zap_netto">0</td>');</script>
-            </tr>
-            <tr>
-                <td>Planowane zamówienia</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="planowane_zam">0</td>');</script>
-            </tr>
-            <tr>
-                <td>Planowane przyjęcie zamówień</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="planowane_przyjecie_zam">0</td>');</script>
-            </tr>
+            <tr><th>Okres</th><script>for(let i=1;i<=10;i++)document.write(`<th>${i}</th>`);</script></tr>
+            <tr><td>Całkowite zapotrzebowanie</td><script>for(let i=1;i<=10;i++)document.write('<td class="cal_zapotrzebowanie">0</td>');</script></tr>
+            <tr><td>Planowane przyjęcia</td><script>for(let i=1;i<=10;i++)document.write('<td class="planowane_przyjecia">0</td>');</script></tr>
+            <tr><td>Przewidywane na stanie</td><script>for(let i=1;i<=10;i++)document.write('<td class="przewidywane_stan">0</td>');</script></tr>
+            <tr><td>Zapotrzebowanie netto</td><script>for(let i=1;i<=10;i++)document.write('<td class="zap_netto">0</td>');</script></tr>
+            <tr><td>Planowane zamówienia</td><script>for(let i=1;i<=10;i++)document.write('<td class="planowane_zam">0</td>');</script></tr>
+            <tr><td>Planowane przyjęcie zamówień</td><script>for(let i=1;i<=10;i++)document.write('<td class="planowane_przyjecie_zam">0</td>');</script></tr>
         </table>
         <button onclick="obliczMRP('wosk')">Przelicz MRP (Wosk)</button>
     </div>
@@ -82,45 +49,41 @@
         <label>Poziom BOM: <input type="number" id="mrp_knot_bom" value="1"></label>
         <label>Na stanie: <input type="number" id="mrp_knot_stan" value="50"></label>
         <table id="mrp_knot_table">
-            <tr>
-                <th>Okres</th>
-                <script>for(let i = 1; i <= 10; i++) document.write(`<th>${i}</th>`);</script>
-            </tr>
-            <tr>
-                <td>Całkowite zapotrzebowanie</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="cal_zapotrzebowanie">0</td>');</script>
-            </tr>
-            <tr>
-                <td>Planowane przyjęcia</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="planowane_przyjecia">0</td>');</script>
-            </tr>
-            <tr>
-                <td>Przewidywane na stanie</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="przewidywane_stan">0</td>');</script>
-            </tr>
-            <tr>
-                <td>Zapotrzebowanie netto</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="zap_netto">0</td>');</script>
-            </tr>
-            <tr>
-                <td>Planowane zamówienia</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="planowane_zam">0</td>');</script>
-            </tr>
-            <tr>
-                <td>Planowane przyjęcie zamówień</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="planowane_przyjecie_zam">0</td>');</script>
-            </tr>
+            <tr><th>Okres</th><script>for(let i=1;i<=10;i++)document.write(`<th>${i}</th>`);</script></tr>
+            <tr><td>Całkowite zapotrzebowanie</td><script>for(let i=1;i<=10;i++)document.write('<td class="cal_zapotrzebowanie">0</td>');</script></tr>
+            <tr><td>Planowane przyjęcia</td><script>for(let i=1;i<=10;i++)document.write('<td class="planowane_przyjecia">0</td>');</script></tr>
+            <tr><td>Przewidywane na stanie</td><script>for(let i=1;i<=10;i++)document.write('<td class="przewidywane_stan">0</td>');</script></tr>
+            <tr><td>Zapotrzebowanie netto</td><script>for(let i=1;i<=10;i++)document.write('<td class="zap_netto">0</td>');</script></tr>
+            <tr><td>Planowane zamówienia</td><script>for(let i=1;i<=10;i++)document.write('<td class="planowane_zam">0</td>');</script></tr>
+            <tr><td>Planowane przyjęcie zamówień</td><script>for(let i=1;i<=10;i++)document.write('<td class="planowane_przyjecie_zam">0</td>');</script></tr>
         </table>
         <button onclick="obliczMRP('knot')">Przelicz MRP (Knot)</button>
     </div>
-    
+
+    <div class="mrp-section">
+        <h2>MRP (Olejki zapachowe)</h2>
+        <label>Czas realizacji: <input type="number" id="mrp_olejki_czas" value="1"></label>
+        <label>Wielkość partii: <input type="number" id="mrp_olejki_partia" value="50"></label>
+        <label>Poziom BOM: <input type="number" id="mrp_olejki_bom" value="2"></label>
+        <label>Na stanie: <input type="number" id="mrp_olejki_stan" value="10"></label>
+        <table id="mrp_olejki_table">
+            <tr><th>Okres</th><script>for(let i=1;i<=10;i++)document.write(`<th>${i}</th>`);</script></tr>
+            <tr><td>Całkowite zapotrzebowanie</td><script>for(let i=1;i<=10;i++)document.write('<td class="cal_zapotrzebowanie">0</td>');</script></tr>
+            <tr><td>Planowane przyjęcia</td><script>for(let i=1;i<=10;i++)document.write('<td class="planowane_przyjecia">0</td>');</script></tr>
+            <tr><td>Przewidywane na stanie</td><script>for(let i=1;i<=10;i++)document.write('<td class="przewidywane_stan">0</td>');</script></tr>
+            <tr><td>Zapotrzebowanie netto</td><script>for(let i=1;i<=10;i++)document.write('<td class="zap_netto">0</td>');</script></tr>
+            <tr><td>Planowane zamówienia</td><script>for(let i=1;i<=10;i++)document.write('<td class="planowane_zam">0</td>');</script></tr>
+            <tr><td>Planowane przyjęcie zamówień</td><script>for(let i=1;i<=10;i++)document.write('<td class="planowane_przyjecie_zam">0</td>');</script></tr>
+        </table>
+        <button onclick="obliczMRP_Olejki()">Przelicz MRP (Olejki)</button>
+    </div>
+
     <script>
         function obliczGHP() {
             let stan = parseInt(document.getElementById("ghp_stan").value);
             let popyt = document.querySelectorAll(".popyt");
             let produkcja = document.querySelectorAll(".produkcja");
             let dostepne = document.querySelectorAll(".dostepne");
-            
             for (let i = 0; i < 10; i++) {
                 let prod = parseInt(produkcja[i].value) || 0;
                 let zap = parseInt(popyt[i].value) || 0;
@@ -128,7 +91,7 @@
                 dostepne[i].innerText = stan;
             }
         }
-        
+
         function obliczMRP(material) {
             let czas_realizacji = parseInt(document.getElementById(`mrp_${material}_czas`).value);
             let wielkosc_partii = parseInt(document.getElementById(`mrp_${material}_partia`).value);
@@ -154,17 +117,58 @@
             for (let i = 0; i < 10; i++) {
                 let zap = parseInt(zapotrzebowanie[i].innerText) || 0;
                 stan -= zap;
-
                 if (stan < 0) {
                     let brakuje = Math.abs(stan);
                     let partia = Math.ceil(brakuje / wielkosc_partii) * wielkosc_partii;
                     zap_netto[i].innerText = brakuje;
                     planowane_przyjecie_zam[i].innerText = partia;
-
                     let zamowienie_index = Math.max(0, i - czas_realizacji);
                     planowane_zam[zamowienie_index].innerText = partia;
-
                     stan = partia - brakuje;
+                }
+                przewidywane_stan[i].innerText = stan;
+            }
+        }
+
+        function obliczMRP_Olejki() {
+            let czas_realizacji = parseInt(document.getElementById("mrp_olejki_czas").value);
+            let wielkosc_partii = parseInt(document.getElementById("mrp_olejki_partia").value);
+            let stan = parseInt(document.getElementById("mrp_olejki_stan").value);
+
+            let zapotrzebowanie = document.querySelectorAll("#mrp_olejki_table .cal_zapotrzebowanie");
+            let przewidywane_stan = document.querySelectorAll("#mrp_olejki_table .przewidywane_stan");
+            let zap_netto = document.querySelectorAll("#mrp_olejki_table .zap_netto");
+            let planowane_przyjecia = document.querySelectorAll("#mrp_olejki_table .planowane_przyjecia");
+            let planowane_zam = document.querySelectorAll("#mrp_olejki_table .planowane_zam");
+            let planowane_przyjecie_zam = document.querySelectorAll("#mrp_olejki_table .planowane_przyjecie_zam");
+
+            let wosk_zamowienia = document.querySelectorAll("#mrp_wosk_table .planowane_zam");
+
+            for (let i = 0; i < 10; i++) {
+                zapotrzebowanie[i].innerText = wosk_zamowienia[i].innerText;
+                planowane_przyjecia[i].innerText = 0;
+            }
+
+            for (let i = 0; i < 10; i++) {
+                let zap = parseInt(zapotrzebowanie[i].innerText) || 0;
+                let aktualny_stan = stan - zap;
+
+                if (i + 1 - czas_realizacji <= 0) {
+                    przewidywane_stan[i].innerText = aktualny_stan;
+                    stan = aktualny_stan;
+                    continue;
+                }
+
+                if (aktualny_stan < 0) {
+                    let brakuje = Math.abs(aktualny_stan);
+                    let partia = Math.ceil(brakuje / wielkosc_partii) * wielkosc_partii;
+                    zap_netto[i].innerText = brakuje;
+                    planowane_przyjecie_zam[i].innerText = partia;
+                    let index_zam = i - czas_realizacji;
+                    planowane_zam[index_zam].innerText = partia;
+                    stan = partia - brakuje;
+                } else {
+                    stan = aktualny_stan;
                 }
                 przewidywane_stan[i].innerText = stan;
             }
