@@ -113,46 +113,7 @@
         </table>
         <button onclick="obliczMRP('knot')">Przelicz MRP (Knot)</button>
     </div>
-
-    <div class="mrp-section">
-        <h2>MRP (Olejek Zapachowy)</h2>
-        <label>Czas realizacji: <input type="number" id="mrp_olejek_zapachowy_czas" value="2"></label>
-        <label>Wielkość partii: <input type="number" id="mrp_olejek_zapachowy_partia" value="30"></label>
-        <label>Poziom BOM: <input type="number" id="mrp_olejek_zapachowy_bom" value="1"></label>
-        <label>Na stanie: <input type="number" id="mrp_olejek_zapachowy_stan" value="15"></label>
-        <table id="mrp_olejek_zapachowy_table">
-            <tr>
-                <th>Okres</th>
-                <script>for(let i = 1; i <= 10; i++) document.write(`<th>${i}</th>`);</script>
-            </tr>
-            <tr>
-                <td>Całkowite zapotrzebowanie</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="cal_zapotrzebowanie">0</td>');</script>
-            </tr>
-            <tr>
-                <td>Planowane przyjęcia</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="planowane_przyjecia">0</td>');</script>
-            </tr>
-            <tr>
-                <td>Przewidywane na stanie</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="przewidywane_stan">0</td>');</script>
-            </tr>
-            <tr>
-                <td>Zapotrzebowanie netto</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="zap_netto">0</td>');</script>
-            </tr>
-            <tr>
-                <td>Planowane zamówienia</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="planowane_zam">0</td>');</script>
-            </tr>
-            <tr>
-                <td>Planowane przyjęcie zamówień</td>
-                <script>for(let i = 1; i <= 10; i++) document.write('<td class="planowane_przyjecie_zam">0</td>');</script>
-            </tr>
-        </table>
-        <button onclick="obliczMRP('olejek_zapachowy')">Przelicz MRP (Olejek Zapachowy)</button>
-    </div>
-
+    
     <script>
         function obliczGHP() {
             let stan = parseInt(document.getElementById("ghp_stan").value);
