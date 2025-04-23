@@ -171,7 +171,38 @@
                 // aktualizacja stanu ogólnego
                 stan = nowy_stan;
             }
+            poprawZapotrzebowanieNetto(material, czas_realizacji, wielkosc_partii);
+
         }
+        function poprawZapotrzebowanieNetto(material, czas_realizacji, wielkosc_partii) {
+            const przewidywane_stan = document.querySelectorAll(`#mrp_${material}_table .przewidywane_stan`);
+            const zap_netto = document.querySelectorAll(`#mrp_${material}_table .zap_netto`);
+            const przyjecie_zam = document.querySelectorAll(`#mrp_${material}_table .planowane_przyjecie_zam`);
+
+            for (let i = 0; i < 10; i++) {
+                const przew_stan_td = przewidywane_stan[i];
+                const zap_netto_td = zap_netto[i];
+                const przyjecie = parseInt(przyjecie_zam[i].textContent) || 0;
+
+                let przew_val = parseInt(przew_stan_td.textContent) || 0;
+                const n = i - czas_realizacji;
+
+                if (przew_val >= 0 && przyjecie === 0) {
+                    zap_netto_td.innerHTML = formatValue(0);
+                } else if (przew_val >= 0 && przyjecie > 0) {
+                    zap_netto_td.innerHTML = formatValue(wielkosc_partii - przew_val);
+                } else if (przew_val < 0 && n < 0) {
+                    zap_netto_td.innerHTML = formatValue(Math.abs(przew_val));
+                } else if (przew_val < 0 && n >= 0) {
+                    zap_netto_td.innerHTML = formatValue(wielkosc_partii - Math.abs(przew_val));
+                } else {
+                    zap_netto_td.innerHTML = formatValue(0);
+                }
+            }
+        }
+
+
+
     </script>
 </body>
 </html>
